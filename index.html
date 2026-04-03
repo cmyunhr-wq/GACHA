@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>핵심가치 가챠 — 크래프톤 AI 캐릭터 공모전</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0f;min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:2rem 1rem;}
+.sys-tag{font-size:10px;font-weight:500;letter-spacing:0.14em;color:#7F77DD;border:1px solid rgba(83,74,183,0.4);border-radius:4px;padding:3px 12px;display:inline-block;margin-bottom:10px;}
+.main-title{font-size:22px;font-weight:500;color:#fff;margin-bottom:4px;text-align:center;}
+.main-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:1.5rem;text-align:center;}
+
+.machine-body{width:300px;background:#1a1035;border-radius:24px 24px 16px 16px;border:2px solid #3a2a6a;position:relative;padding-bottom:20px;margin-bottom:1.5rem;}
+.machine-header{background:#251848;border-radius:22px 22px 0 0;padding:14px 20px 10px;text-align:center;border-bottom:2px solid #3a2a6a;}
+.machine-header-title{font-size:11px;font-weight:500;color:#7F77DD;letter-spacing:0.16em;}
+.machine-lights{display:flex;justify-content:center;gap:8px;margin-top:8px;}
+.light{width:8px;height:8px;border-radius:50%;animation:blink 1.2s ease-in-out infinite;}
+.light:nth-child(2){animation-delay:0.4s;}
+.light:nth-child(3){animation-delay:0.8s;}
+.light:nth-child(4){animation-delay:1.2s;}
+@keyframes blink{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+.globe-area{margin:16px auto;width:200px;height:200px;position:relative;}
+.globe-outer{width:200px;height:200px;border-radius:50%;background:#0d0820;border:3px solid #3a2a6a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.globe-shine{position:absolute;top:12px;left:20px;width:50px;height:30px;background:rgba(255,255,255,0.06);border-radius:50%;transform:rotate(-30deg);}
+.globe-ring{position:absolute;inset:-8px;border-radius:50%;border:6px solid transparent;border-top-color:#534AB7;border-bottom-color:#534AB7;opacity:0.4;}
+.globe-ring2{position:absolute;inset:-16px;border-radius:50%;border:4px solid transparent;border-left-color:#7F77DD;border-right-color:#7F77DD;opacity:0.25;}
+.capsule-display{width:140px;height:140px;border-radius:50%;background:#13101e;border:2px solid #2a2050;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+.capsule-shape{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.15s;position:relative;}
+.capsule-top{position:absolute;top:0;left:0;right:0;height:50%;border-radius:50px 50px 0 0;opacity:0.9;}
+.capsule-bot{position:absolute;bottom:0;left:0;right:0;height:50%;border-radius:0 0 50px 50px;opacity:0.7;}
+.capsule-line{position:absolute;top:50%;left:8px;right:8px;height:2px;background:rgba(255,255,255,0.15);transform:translateY(-50%);}
+.capsule-shine{position:absolute;top:12px;left:18px;width:20px;height:12px;background:rgba(255,255,255,0.2);border-radius:50%;transform:rotate(-20deg);}
+.capsule-text{position:relative;z-index:1;font-size:10px;font-weight:500;text-align:center;line-height:1.35;padding:0 10px;color:#fff;}
+.capsule-shape.spinning{animation:wobble 0.12s linear infinite;}
+@keyframes wobble{0%{transform:scale(1) rotate(0deg);}50%{transform:scale(1.08) rotate(180deg);}100%{transform:scale(1) rotate(360deg);}}
+
+.slot-tube{width:60px;height:24px;background:#0d0820;border:2px solid #3a2a6a;border-radius:12px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+.slot-hole{width:16px;height:16px;border-radius:50%;background:#050510;border:2px solid #2a2050;}
+.coin-slot{width:80px;height:20px;background:#0d0820;border:2px solid #3a2a6a;border-radius:10px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
+.coin-slit{width:40px;height:4px;background:#050510;border-radius:2px;}
+.deco-row{display:flex;justify-content:space-between;padding:0 20px;margin-bottom:10px;}
+
+.lever-area{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:6px;}
+.lever-base{width:28px;height:28px;border-radius:50%;background:#251848;border:2px solid #534AB7;display:flex;align-items:center;justify-content:center;}
+.lever-stick{width:10px;height:52px;background:#3a2a6a;border-radius:5px;transition:transform 0.2s;transform-origin:bottom center;}
+.lever-stick.pulled{transform:rotate(30deg);}
+.lever-btn{background:#534AB7;color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:500;padding:13px 40px;cursor:pointer;letter-spacing:0.08em;transition:background 0.2s,transform 0.1s;font-family:inherit;}
+.lever-btn:hover{background:#7F77DD;transform:scale(1.04);}
+.lever-btn:active{transform:scale(0.97);}
+.lever-btn:disabled{background:#2a2a4a;color:#5F5E5A;cursor:not-allowed;transform:none;}
+.cnt-row{text-align:center;font-size:10px;color:#5F5E5A;margin-top:6px;}
+.pity{color:#EF9F27;display:none;}
+
+.result-area{width:100%;max-width:520px;display:none;}
+.result-area.show{display:block;}
+.result-card{background:#13131f;border:1px solid #2a2a4a;border-radius:12px;padding:1.25rem;margin-bottom:10px;}
+.rc-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.rc-badge{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rc-name{font-size:16px;font-weight:500;color:#fff;margin-bottom:3px;}
+.rc-val{font-size:11px;letter-spacing:0.06em;}
+.pbox{background:#0d0d1a;border:1px solid #2a2a4a;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.plabel{font-size:10px;color:#534AB7;letter-spacing:0.1em;margin-bottom:7px;font-weight:500;}
+.ptext{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;}
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ai-btn{border:1px solid #2a2a4a;border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;text-decoration:none;display:block;background:#0d0d1a;}
+.ai-btn:hover{border-color:#534AB7;background:#1a1535;}
+.ai-name{font-size:12px;font-weight:500;margin-bottom:2px;}
+.ai-sub{font-size:10px;color:#5F5E5A;}
+.again-btn{width:100%;background:rgba(83,74,183,0.12);border:1px solid rgba(83,74,183,0.3);border-radius:8px;padding:11px;color:#7F77DD;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;margin-top:2px;}
+.again-btn:hover{background:rgba(83,74,183,0.22);}
+</style>
+</head>
+<body>
+
+<div class="sys-tag">[1주차] 담대한 목적을 향한 도전</div>
+<div class="main-title">핵심가치 가챠</div>
+<div class="main-sub">뽑기 한 번으로 당신의 AI 캐릭터 테마가 결정됩니다</div>
+
+<div class="machine-body">
+  <div class="machine-header">
+    <div class="machine-header-title">KRAFTON VALUE GACHA</div>
+    <div class="machine-lights">
+      <div class="light" style="background:#534AB7;"></div>
+      <div class="light" style="background:#7F77DD;"></div>
+      <div class="light" style="background:#AFA9EC;"></div>
+      <div class="light" style="background:#7F77DD;"></div>
+      <div class="light" style="background:#534AB7;"></div>
+    </div>
+  </div>
+
+  <div class="globe-area">
+    <div class="globe-outer">
+      <div class="globe-ring"></div>
+      <div class="globe-ring2"></div>
+      <div class="globe-shine"></div>
+      <div class="capsule-display">
+        <div class="capsule-shape" id="capsule-shape" style="background:#1a1535;">
+          <div class="capsule-top" id="cap-top" style="background:#2a1a55;"></div>
+          <div class="capsule-bot" id="cap-bot" style="background:#1a1035;"></div>
+          <div class="capsule-line"></div>
+          <div class="capsule-shine"></div>
+          <div class="capsule-text" id="cap-text" style="color:#534AB7;font-size:16px;">?</div>
+        </div>
+      </div>
+    </div>
+    <svg style="position:absolute;top:-10px;left:-10px;width:220px;height:220px;pointer-events:none;" viewBox="0 0 220 220">
+      <circle cx="110" cy="110" r="104" fill="none" stroke="#534AB7" stroke-width="0.5" stroke-dasharray="4 6" opacity="0.3"/>
+      <circle cx="110" cy="6" r="3" fill="#534AB7" opacity="0.5"/>
+      <circle cx="214" cy="110" r="3" fill="#7F77DD" opacity="0.5"/>
+      <circle cx="110" cy="214" r="3" fill="#534AB7" opacity="0.5"/>
+      <circle cx="6" cy="110" r="3" fill="#7F77DD" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="slot-tube"><div class="slot-hole"></div></div>
+  <div class="coin-slot"><div class="coin-slit"></div></div>
+
+  <div class="deco-row">
+    <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L8.5 5.5H13L9.5 8L11 12.5L7 10L3 12.5L4.5 8L1 5.5H5.5Z" fill="#534AB7" opacity="0.5"/></svg>
+    <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L8.5 5.5H13L9.5 8L11 12.5L7 10L3 12.5L4.5 8L1 5.5H5.5Z" fill="#7F77DD" opacity="0.6"/></svg>
+    <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L8.5 5.5H13L9.5 8L11 12.5L7 10L3 12.5L4.5 8L1 5.5H5.5Z" fill="#534AB7" opacity="0.5"/></svg>
+  </div>
+
+  <div class="lever-area">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="lever-stick" id="lever-stick"></div>
+      <div class="lever-base"></div>
+    </div>
+    <button class="lever-btn" id="lever-btn" onclick="pull()">뽑기</button>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="lever-stick" id="lever-stick2"></div>
+      <div class="lever-base"></div>
+    </div>
+  </div>
+  <div class="cnt-row">
+    남은 뽑기 <span id="cnt">5</span>회 &nbsp;
+    <span class="pity" id="pity">다음 뽑기 레전더리 확정!</span>
+  </div>
+</div>
+
+<div class="result-area" id="result-area">
+  <div class="result-card">
+    <div class="rc-top">
+      <div class="rc-badge" id="rc-badge"></div>
+      <div>
+        <div class="rc-name" id="rc-name"></div>
+        <div class="rc-val" id="rc-val"></div>
+      </div>
+    </div>
+    <div class="pbox">
+      <div class="plabel">추천 프롬프트</div>
+      <div class="ptext" id="prompt-text"></div>
+    </div>
+    <div class="pbox" style="margin-bottom:12px;">
+      <div class="plabel">이런 캐릭터가 나올 거예요</div>
+      <div class="ptext" id="char-preview"></div>
+    </div>
+    <div style="font-size:11px;color:#5F5E5A;margin-bottom:8px;letter-spacing:0.05em;">지금 만들러 가기</div>
+    <div class="ai-grid">
+      <a class="ai-btn" id="claude-link" target="_blank">
+        <div class="ai-name" style="color:#AFA9EC;">Claude</div>
+        <div class="ai-sub">claude.ai</div>
+      </a>
+      <a class="ai-btn" id="gpt-link" target="_blank">
+        <div class="ai-name" style="color:#1D9E75;">ChatGPT</div>
+        <div class="ai-sub">chat.openai.com</div>
+      </a>
+      <a class="ai-btn" id="gemini-link" target="_blank">
+        <div class="ai-name" style="color:#EF9F27;">Gemini</div>
+        <div class="ai-sub">gemini.google.com</div>
+      </a>
+    </div>
+  </div>
+  <button class="again-btn" onclick="reset()">다시 뽑기</button>
+</div>
+
+<script>
+var values=[
+  {name:"담대한 목적을 향한 도전",short:"담대한 도전",colorA:"#534AB7",colorB:"#3a2a8a",textColor:"#AFA9EC",
+   prompt:"두려움 없이 새로운 것에 뛰어드는 AI 캐릭터를 만들어줘. 아무도 가지 않은 길을 먼저 걷는 탐험가 스타일. 용감하고 낙천적이며 실패를 두려워하지 않는 성격. 이름, 능력, 외형 설명을 포함해서 캐릭터 프로필을 만들어줘.",
+   preview:"붉은 망토를 두른 탐험가형 AI. 지도 없이도 앞으로 나아가는 선구자 캐릭터."},
+  {name:"철저하게 준비된 시도",short:"철저한 준비",colorA:"#1D9E75",colorB:"#0d6a4e",textColor:"#9FE1CB",
+   prompt:"완벽하게 준비하고 정밀하게 실행하는 AI 캐릭터를 만들어줘. 체크리스트와 분석을 사랑하고, 디테일에 강하며, 신뢰감을 주는 전문가 스타일. 이름, 능력, 외형 설명을 포함해서 캐릭터 프로필을 만들어줘.",
+   preview:"청색 코트에 데이터 패드를 든 분석가형 AI. 말 한 마디도 근거 있게 하는 캐릭터."},
+  {name:"상상력과 기술의 결합",short:"상상력+기술",colorA:"#D85A30",colorB:"#993C1D",textColor:"#F5C4B3",
+   prompt:"창의성과 기술을 동시에 가진 AI 캐릭터를 만들어줘. 예술가의 감성과 엔지니어의 논리를 동시에 갖춘 융합형 천재. 독특한 외형과 개성 있는 스타일. 이름, 능력, 외형 설명을 포함해서 캐릭터 프로필을 만들어줘.",
+   preview:"반은 붓, 반은 회로로 이루어진 하이브리드 AI. 상상한 것을 즉시 현실로 구현하는 창조자."},
+  {name:"팬 중심 사고",short:"팬 중심 사고",colorA:"#D4537E",colorB:"#993556",textColor:"#F4C0D1",
+   prompt:"사용자(팬)의 마음을 가장 잘 이해하는 AI 캐릭터를 만들어줘. 공감 능력이 극대화된 캐릭터. 팬들이 원하는 것을 말하기 전에 먼저 알아채는 따뜻한 스타일. 이름, 능력, 외형 설명을 포함해서 캐릭터 프로필을 만들어줘.",
+   preview:"분홍빛 오라를 두른 공감형 AI. 상대의 감정을 먼저 읽고 행동하는 세심한 동반자."},
+  {name:"글로벌 사고와 감각",short:"글로벌 감각",colorA:"#378ADD",colorB:"#185FA5",textColor:"#B5D4F4",
+   prompt:"전 세계 어디서든 통하는 AI 캐릭터를 만들어줘. 다양한 문화를 이해하고 글로벌 언어로 소통하는 국제형 캐릭터. 세련되고 다국적 감성을 가진 스타일. 이름, 능력, 외형 설명을 포함해서 캐릭터 프로필을 만들어줘.",
+   preview:"지구본 문양이 새겨진 코트를 입은 외교관형 AI. 어느 나라 유저와도 자연스럽게 어울리는 캐릭터."}
+];
+
+var cnt=5,spinning=false;
+
+function pull(){
+  if(spinning||cnt<=0)return;
+  spinning=true;cnt--;
+  document.getElementById('cnt').textContent=cnt;
+  document.getElementById('lever-btn').disabled=true;
+  document.getElementById('result-area').classList.remove('show');
+  document.getElementById('lever-stick').classList.add('pulled');
+  document.getElementById('lever-stick2').classList.add('pulled');
+
+  var shape=document.getElementById('capsule-shape');
+  var capTop=document.getElementById('cap-top');
+  var capBot=document.getElementById('cap-bot');
+  var capText=document.getElementById('cap-text');
+  shape.classList.add('spinning');
+  capText.style.fontSize='10px';
+
+  var i=0,frames=22;
+  var iv=setInterval(function(){
+    var v=values[i%values.length];
+    capTop.style.background=v.colorA;
+    capBot.style.background=v.colorB;
+    capText.style.color=v.textColor;
+    capText.textContent=v.short;
+    i++;
+    if(i>=frames){
+      clearInterval(iv);
+      shape.classList.remove('spinning');
+      document.getElementById('lever-stick').classList.remove('pulled');
+      document.getElementById('lever-stick2').classList.remove('pulled');
+      var result=values[Math.floor(Math.random()*values.length)];
+      showResult(result);
+      spinning=false;
+      if(cnt>0)document.getElementById('lever-btn').disabled=false;
+      if(cnt===1)document.getElementById('pity').style.display='inline';
+    }
+  },90);
+}
+
+function showResult(v){
+  document.getElementById('cap-top').style.background=v.colorA;
+  document.getElementById('cap-bot').style.background=v.colorB;
+  document.getElementById('cap-text').style.color=v.textColor;
+  document.getElementById('cap-text').style.fontSize='10px';
+  document.getElementById('cap-text').textContent=v.short;
+
+  var badge=document.getElementById('rc-badge');
+  badge.style.background=v.colorB;
+  badge.style.border='1px solid '+v.colorA;
+  badge.style.borderRadius='12px';
+  badge.innerHTML='<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" fill="'+v.colorA+'" opacity="0.35"/><circle cx="12" cy="12" r="4" fill="'+v.colorA+'"/></svg>';
+
+  document.getElementById('rc-name').textContent=v.name;
+  document.getElementById('rc-val').style.color=v.colorA;
+  document.getElementById('rc-val').textContent='핵심가치 테마 획득';
+  document.getElementById('prompt-text').textContent=v.prompt;
+  document.getElementById('char-preview').textContent=v.preview;
+
+  var enc=encodeURIComponent(v.prompt);
+  document.getElementById('claude-link').href='https://claude.ai/new?q='+enc;
+  document.getElementById('gpt-link').href='https://chat.openai.com/?q='+enc;
+  document.getElementById('gemini-link').href='https://gemini.google.com/app?q='+enc;
+  document.getElementById('result-area').classList.add('show');
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+function reset(){
+  cnt=5;
+  document.getElementById('cnt').textContent=5;
+  document.getElementById('lever-btn').disabled=false;
+  document.getElementById('result-area').classList.remove('show');
+  document.getElementById('pity').style.display='none';
+  document.getElementById('cap-top').style.background='#2a1a55';
+  document.getElementById('cap-bot').style.background='#1a1035';
+  document.getElementById('cap-text').style.color='#534AB7';
+  document.getElementById('cap-text').style.fontSize='16px';
+  document.getElementById('cap-text').textContent='?';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
